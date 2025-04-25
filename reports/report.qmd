@@ -2,10 +2,12 @@
 title: Homework 8 - World Bank Analysis
 ---
 
-GITHUB URL:  <https://github.com/cmsc-vcu/cmsc408-sp2025-hw8-jleonard99>
+GITHUB URL:  <https://github.com/cmsc-vcu/cmsc408-sp2025-hw8-konyedeke>
 
 
 # Problem Background
+
+In this assignment, I connected to a preloaded World bank database. goal is to build familiarity with select, join, group by, etc
 
 
 ```{python}
