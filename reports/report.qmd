@@ -52,11 +52,9 @@ How many records are in the country table?
 # How many records are in the world_bank_data.wdi_country table?
 # (skills: select, aggregate)
 
-run_sql_and_return_html(cnx,"""
-select
-  count(*) as "Row Count"
-from
-  world_bank_data.wdi_country
+rrun_sql_and_return_html(cnx, """
+SELECT COUNT(*) AS row_count
+FROM world_bank_data.wdi_country;
 """)
 
 ```
@@ -70,12 +68,10 @@ Explore the first 5 records in the country table.
 ## Do you see any blanks or missing data?
 ## (skills: select, limit)
 
-run_sql_and_return_html(cnx,"""
-select
-  *
-from 
-  world_bank_data.wdi_country
-limit 5
+run_sql_and_return_html(cnx, """
+SELECT *
+FROM world_bank_data.wdi_country
+LIMIT 5;
 """)
 
 ```
@@ -92,8 +88,10 @@ List all non-countries.
 ## Once you figure it out, write a query to list all the non-countries
 ## (skills: select, where)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT *
+FROM world_bank_data.wdi_country
+WHERE is_country = 0;
 """)
 ```
 
@@ -110,21 +108,27 @@ Create your own copy of WDI_Country containing just countries.
 ## (skills: select, aggregate)
 
 # drop table
-execute_ddl(cnx,"""
-drop table if exists wdi_country;
+execute_ddl(cnx, """
+DROP TABLE IF EXISTS wdi_country;
 """)
 ```
 
 ```{python}
 # create table
-execute_ddl(cnx,"""
+execute_ddl(cnx, """
+CREATE TABLE wdi_country AS
+SELECT *
+FROM world_bank_data.wdi_country
+WHERE is_country = 1;
 """)
 ```
 
 ```{python}
 # show number of records
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+
+run_sql_and_return_html(cnx, """
+SELECT COUNT(*) AS num_countries
+FROM wdi_country;
 """)
 ```
 
@@ -135,8 +139,10 @@ According to the World Bank, in 2020 there were how many countries in the world?
 ```{python}
 ## (skills: select, aggregate)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT COUNT(*)
+FROM wdi_country
+WHERE year = 2020;
 """)
 
 ```
@@ -152,8 +158,10 @@ What are all unique values of region in the wdi_country table?
 ## (there are several possible ways to code this in SQL)
 ## (skills: select, aggregate, order by)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT DISTINCT country_region
+FROM wdi_country
+ORDER BY country_region;
 """)
 
 ```
@@ -166,8 +174,11 @@ How many countries are in each region?
 ## How many countries are in each region?
 ## (skills: select, aggregate, group by, order by)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_region, COUNT(*) AS country_count
+FROM wdi_country
+GROUP BY country_region
+ORDER BY country_count DESC;
 """)
 
 ```
@@ -180,8 +191,11 @@ List the country full names and regions for all countries in north america.
 ## List the country full names and regions for all countries in north america
 ## (skills: select, where, order by)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_name, country_region
+FROM wdi_country
+WHERE country_region = 'North America'
+ORDER BY country_name;
 """)
 
 ```
@@ -193,8 +207,10 @@ select "doh!" as "Homer says ..." from dual
 ## What region contains Qatar?  List the region, country short name and full name
 ## (skills: select, where)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_region, country_name, country_long_name
+FROM wdi_country
+WHERE country_name = 'Qatar';
 """)
 
 ```
@@ -207,8 +223,11 @@ select "doh!" as "Homer says ..." from dual
 ## where the abbr and wb_abbr are different.
 ## (skills: select, where, order by)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_code, country_name, country_abbr, country_wb_abbr, country_region
+FROM wdi_country
+WHERE country_abbr <> country_wb_abbr
+ORDER BY country_name;
 """)
 
 ```
@@ -221,8 +240,12 @@ select "doh!" as "Homer says ..." from dual
 ## income category in descending order of most countries to least.
 ## (skills: select, aggregate, group by, order by)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+
+run_sql_and_return_html(cnx, """
+SELECT income_category, COUNT(*) AS country_count
+FROM wdi_country
+GROUP BY income_category
+ORDER BY country_count DESC;
 """)
 
 ```
@@ -236,8 +259,11 @@ select "doh!" as "Homer says ..." from dual
 ## you will be scored on the number of records returned and the value(s) 
 ## in the first column.
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_name
+FROM wdi_country
+WHERE income_category IS NULL
+ORDER BY country_name;
 """)
 
 ```
@@ -250,7 +276,10 @@ select "doh!" as "Homer says ..." from dual
 ## Write an update comment to correct the issue.
 ## NOTE - if you get this wrong, all subsequent tables will be wrong!
 
-execute_ddl(cnx,"""
+execute_ddl(cnx, """
+UPDATE wdi_country
+SET income_category = 'High income'
+WHERE country_name = 'South Sudan'; -- Example, change to actual country if needed
 """)
 
 
@@ -258,8 +287,10 @@ execute_ddl(cnx,"""
 ```{python}
 ## Now, display the country again to verify the change stuck!
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_name, income_category
+FROM wdi_country
+WHERE country_name = 'South Sudan'; -- Example, match with your correction
 """)
 
 ```
@@ -272,8 +303,11 @@ select "doh!" as "Homer says ..." from dual
 ## region, income group, and no.of.countries.
 ## (skills: select, aggregate, group by, order by)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_region, income_category, COUNT(*) AS num_countries
+FROM wdi_country
+GROUP BY country_region, income_category
+ORDER BY country_region, income_category;
 """)
 
 ```
@@ -293,8 +327,18 @@ select "doh!" as "Homer says ..." from dual
 ## and a column for the row totals.
 ## (skills: select, aggregate, group by, nested query)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT 
+  country_region,
+  SUM(CASE WHEN income_category = 'High income' THEN 1 ELSE 0 END) AS high_income,
+  SUM(CASE WHEN income_category = 'Upper middle income' THEN 1 ELSE 0 END) AS upper_middle_income,
+  SUM(CASE WHEN income_category = 'Lower middle income' THEN 1 ELSE 0 END) AS lower_middle_income,
+  SUM(CASE WHEN income_category = 'Low income' THEN 1 ELSE 0 END) AS low_income,
+  SUM(CASE WHEN income_category IS NULL THEN 1 ELSE 0 END) AS missing_income,
+  COUNT(*) AS total_countries
+FROM wdi_country
+GROUP BY country_region
+ORDER BY country_region;
 """)
 
 ```
@@ -313,8 +357,13 @@ select "doh!" as "Homer says ..." from dual
 ## PUT THE NUMBER FIRST! (use: count, region name, income group)
 ## (skills: select, aggregate, group by, nested query, order by, limit)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT COUNT(*) AS low_income_count, country_region, income_category
+FROM wdi_country
+WHERE income_category = 'Low income'
+GROUP BY country_region, income_category
+ORDER BY low_income_count DESC
+LIMIT 1;
 """)
 
 ```
@@ -330,8 +379,16 @@ select "doh!" as "Homer says ..." from dual
 ## the country code for the Marshall Islands is MHL.
 ## (skills: select, where, subquery)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+run_sql_and_return_html(cnx, """
+SELECT country_code, country_name, country_region, income_category
+FROM wdi_country
+WHERE country_region = (
+    SELECT country_region FROM wdi_country WHERE country_code = 'MHL'
+)
+AND income_category = (
+    SELECT income_category FROM wdi_country WHERE country_code = 'MHL'
+)
+ORDER BY country_name;
 """)
 
 ```
@@ -355,9 +412,13 @@ select "doh!" as "Homer says ..." from dual
 ## in Task 14.  (FYI - I get 6 rows in my final table.)
 ## (skills: select, where, subqueries, joins)
 
-run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
-""")
+run_sql_and_return_html(cnx, """
+WITH combinations AS (
+  SELECT DISTINCT country_region, income_category
+  FROM wdi_country
+),
+full_set AS (
+  SELECT DISTINCT r.country_region, i.income_category
 
 ```
 
