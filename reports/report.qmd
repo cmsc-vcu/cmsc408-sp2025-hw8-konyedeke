@@ -480,16 +480,24 @@ select "doh!" as "Homer says ..." from dual
 
 1. Reflect on the SQL skills you used throughout these exercises. Which skills do you feel most confident in, and which do you think need more practice? How has this assignment helped you build or reinforce specific SQL competencies?
 
-( response goes here)
+(In this assignment, I became much more confident in basic SQL skills like SELECT, WHERE, GROUP BY, and ORDER BY. I also grew stronger at using aggregation functions such as COUNT() and SUM().
+However, I realized that I still need more practice with more advanced techniques like using CASE statements to pivot data (Task 15) and writing nested queries (Tasks 17–19).
+This assignment really helped reinforce how SQL can not only retrieve data but also transform and summarize it. It gave me more hands-on experience structuring queries cleanly, and it showed me how critical grouping and filtering are for serious data analysis work.)
 
 2. Problem-Solving Approach: Describe your approach to tackling the more complex tasks (like Tasks 18, 23, and 24). How did you break down these problems, and what steps did you take when you encountered challenges? How would you approach a similar problem differently in the future?
 
-( response goes here)
+(For the complex tasks, I approached the problems by first breaking down what the question was asking into smaller parts. I usually started by writing a basic query that selected all the data, and then layered on WHERE, GROUP BY, or joins as needed.
+When I got stuck, I looked at the output from simpler queries first to make sure I understood the data shape. For example, in Task 18 (finding missing region-income pairs), I wrote small subqueries separately before combining them with a LEFT JOIN to find missing combinations.
+In the future, I would use Common Table Expressions (CTEs) more often early in the query to make my work cleaner and easier to debug, especially when the logic gets complicated.
+
+)
 
 
 3. Learning Takeaways: Consider the overall learning experience from this assignment. What were the biggest takeaways about working with SQL for data analysis and transformation? How do you think these skills will apply in real-world scenarios or future coursework?
 
-( response goes here)
+(The biggest takeaway from this assignment is realizing how powerful SQL is for both data analysis and data transformation — not just for retrieving data.
+Being able to group, summarize, pivot, and even clean data directly in SQL is incredibly valuable. These skills apply directly to real-world data science tasks, where raw datasets are often messy and need preprocessing before analysis.
+In future coursework and professional projects, I know that understanding how to structure queries to handle missing data, join datasets meaningfully, and present grouped insights will be essential for working with large datasets efficiently.)
 
 
 # README
